@@ -1,0 +1,76 @@
+<%
+local function status()
+  local output = luci.sys.exec("pgrep -f subconverter")
+  if output ~= "" then
+    return "running"
+  else
+    return "stopped"
+  end
+end
+
+local function start()
+  luci.sys.exec("chmod +X /etc/init.d/subconverter")
+  luci.sys.exec("/etc/init.d/subconverter start")
+end
+
+local function stop()
+  luci.sys.exec("chmod +X /etc/init.d/subconverter")
+  luci.sys.exec("/etc/init.d/subconverter stop")
+end
+
+local function enable()
+  luci.sys.exec("chmod +X /etc/init.d/subconverter")
+  luci.sys.exec("/etc/init.d/subconverter enable")
+end
+
+local function disable()
+  luci.sys.exec("chmod +X /etc/init.d/subconverter")
+  luci.sys.exec("/etc/init.d/subconverter disable")
+end
+
+local status_value = status()
+%>
+
+<%+header%>
+<style>
+    span.running {
+      color: green;
+    }
+    span.stopped {
+      color: red;
+    }
+</style>
+<div class="cbi-section">
+  <h2><a id="subconverter" target="_blank">Subconverter</a></h2>
+  <br>
+  <script>document.getElementById("subconverter").href = window.location.protocol + "//" + window.location.hostname + ":36611";</script>
+  <div class="cbi-valuefield">
+    <label class="cbi-value-title">Service Status:</label>
+    <span class="<%= status_value %> cbi-value-title"><%= status_value %></span>
+  </div>
+  <br>
+  <div class="cbi-buttonbar">
+    <button class="cbi-button cbi-button-positive" onclick="location.href='?start'"><i class="icon-play"></i> Start</button>
+    <button class="cbi-button cbi-button-negative" onclick="location.href='?stop'"><i class="icon-stop"></i> Stop</button>
+    <button class="cbi-button cbi-button-positive" onclick="location.href='?enable'"><i class="icon-toggle-on"></i> Enable</button>
+    <button class="cbi-button cbi-button-negative" onclick="location.href='?disable'"><i class="icon-toggle-off"></i> Disable</button>
+  </div>
+</div>
+<%+footer%>
+
+<%
+if luci.http.formvalue("start") then
+  start()
+  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "subconverter"))
+elseif luci.http.formvalue("stop") then
+  stop()
+  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "subconverter"))
+elseif luci.http.formvalue("enable") then
+  enable()
+  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "subconverter"))
+elseif luci.http.formvalue("disable") then
+  disable()
+  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "subconverter"))
+end
+
+%>
