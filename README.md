@@ -25,8 +25,6 @@ This project provides a web-based interface for Subconverter and Subweb.
 
 **WARNING:** SUBCONVERTER AND SUBWEB HAVE NO PASSWORD PROTECTION. FOR SECURITY REASONS, DO NOT EXPOSE THEM TO THE PUBLIC INTERNET.
 <br>
-If you do not trust the provided binary file, you can compile it yourself using your own binary in `/root/usr/subconverter`.
-<br>
 
 ### To generate the `subconverter` binary  from trusted sources, follow the steps below:
 
@@ -34,8 +32,10 @@ If you do not trust the provided binary file, you can compile it yourself using 
 <br>
 [Subconverter 0.9.0](https://github.com/tindy2013/subconverter/releases/download/v0.9.0/subconverter_aarch64.tar.gz)
 ```powershell
-.\upx.exe -9 -lzma .\subconverter
+.\upx.exe -9 --lzma .\subconverter
 ```
+If you still don't trust the provided binary file, you can compile your ipk with your own `subconverter` binary.
+<br>
 
 ## Todo List
 
